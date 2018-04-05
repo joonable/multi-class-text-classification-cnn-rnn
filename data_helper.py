@@ -16,14 +16,14 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 def clean_str(s):
-	s = re.sub(r"[^A-Za-z0-9:(),!?\'\`]", " ", s)
+	# s = re.sub(r"[^A-Za-z0-9:(),!?\'\`]", " ", s)
 	s = re.sub(r" : ", ":", s)
-	s = re.sub(r"\'s", " \'s", s)
-	s = re.sub(r"\'ve", " \'ve", s)
-	s = re.sub(r"n\'t", " n\'t", s)
-	s = re.sub(r"\'re", " \'re", s)
-	s = re.sub(r"\'d", " \'d", s)
-	s = re.sub(r"\'ll", " \'ll", s)
+	# s = re.sub(r"\'s", " \'s", s)
+	# s = re.sub(r"\'ve", " \'ve", s)
+	# s = re.sub(r"n\'t", " n\'t", s)
+	# s = re.sub(r"\'re", " \'re", s)
+	# s = re.sub(r"\'d", " \'d", s)
+	# s = re.sub(r"\'ll", " \'ll", s)
 	s = re.sub(r",", " , ", s)
 	s = re.sub(r"!", " ! ", s)
 	s = re.sub(r"\(", " \( ", s)
@@ -102,12 +102,15 @@ def load_data(filename):
 
 	labels = sorted(list(set(df[selected[0]].tolist())))
 	num_labels = len(labels)
+
 	one_hot = np.zeros((num_labels, num_labels), int)
 	np.fill_diagonal(one_hot, 1)
 	label_dict = dict(zip(labels, one_hot))
+	# label_dict = {label1 : [1,0,0...0], lable2: [0,1,0,...0] ...}
 
-	x_raw = df[selected[1]].apply(lambda x:x.split(' ')).tolist()
-	# x_raw = df[selected[1]].apply(lambda x:clean_str(x).split(' ')).tolist()
+
+	# x_raw = df[selected[1]].apply(lambda x:x.split(' ')).tolist()
+	x_raw = df[selected[1]].apply(lambda x:clean_str(x).split(' ')).tolist()
 	y_raw = df[selected[0]].apply(lambda y:label_dict[y]).tolist()
 
 	x_raw = pad_sentences(x_raw)
@@ -124,7 +127,6 @@ def load_data(filename):
 
 
 if __name__ == "__main__":
-	# train_file = './data/train.csv.zip'
 	train_file = './data/train.csv'
 	# train_file = './data/train.csv.zip'
 	load_data(train_file)

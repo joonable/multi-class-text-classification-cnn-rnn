@@ -12,6 +12,7 @@ from text_cnn_rnn import TextCNNRNN
 
 logging.getLogger().setLevel(logging.INFO)
 
+
 def load_trained_params(trained_dir):
     params = json.loads(open(trained_dir + 'trained_parameters.json').read())
     words_index = json.loads(open(trained_dir + 'words_index.json').read())
@@ -24,8 +25,10 @@ def load_trained_params(trained_dir):
 
 
 def load_test_data(test_file, labels):
-    df = pd.read_csv(test_file, sep='|')
-    select = ['Descript']
+    # df = pd.read_csv(test_file, sep='|')
+    # select = ['Descript']
+    select = ['Question']
+    df = pd.read_csv(test_file, sep='\t')
 
     df = df.dropna(axis=0, how='any', subset=select)
     test_examples = df[select[0]].apply(lambda x: data_helper.clean_str(x).split(' ')).tolist()
@@ -64,6 +67,7 @@ def predict_unseen_data():
     if not trained_dir.endswith('/'):
         trained_dir += '/'
     test_file = sys.argv[2]
+    test_file = './data/test.csv'
 
     params, words_index, labels, embedding_mat = load_trained_params(trained_dir)
     x_, y_, df = load_test_data(test_file, labels)
