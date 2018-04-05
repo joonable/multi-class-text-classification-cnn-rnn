@@ -91,14 +91,14 @@ def batch_iter(data, batch_size, num_epochs, shuffle = True):
 
 
 def load_data(filename):
-	df = pd.read_csv(filename)
+	df = pd.read_csv(filename, sep = '\t')
 	selected = ['Category', 'Question']
 	# selected = ['Category', 'Descript']
-	non_selected = list(set(df.columns) - set(selected))
+	# non_selected = list(set(df.columns) - set(selected))
 
-	df = df.drop(non_selected, axis = 1)
-	df = df.dropna(axis=0, how='any', subset=selected)
-	df = df.reindex(np.random.permutation(df.index))
+	# df = df.drop(non_selected, axis = 1)
+	# df = df.dropna(axis=0, how='any', subset=selected)
+	# df = df.reindex(np.random.permutation(df.index))
 
 	labels = sorted(list(set(df[selected[0]].tolist())))
 	num_labels = len(labels)
@@ -125,5 +125,6 @@ def load_data(filename):
 
 if __name__ == "__main__":
 	# train_file = './data/train.csv.zip'
-	train_file = './data/train.csv.zip'
+	train_file = './data/train.csv'
+	# train_file = './data/train.csv.zip'
 	load_data(train_file)

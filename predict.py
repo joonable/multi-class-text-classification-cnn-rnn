@@ -128,7 +128,7 @@ def predict_unseen_data():
             # Save the predictions back to file
             df['NEW_PREDICTED'] = predict_labels
             columns = sorted(df.columns, reverse=True)
-            df.to_csv(predicted_dir + 'predictions_all.csv', index=False, columns=columns, sep='|')
+            df.to_csv(predicted_dir + 'predictions_all.csv', index=False, columns=columns, sep='\t')
 
             if y_test is not None:
                 y_test = np.array(np.argmax(y_test, axis=1))

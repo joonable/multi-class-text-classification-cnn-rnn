@@ -15,12 +15,12 @@ from sklearn.model_selection import train_test_split
 logging.getLogger().setLevel(logging.INFO)
 
 def train_cnn_rnn():
-    # input_file = sys.argv[1]
-    input_file = 'data/train.csv.zip'
+    input_file = sys.argv[1]
+    # input_file = 'data/train.csv.zip'
     x_, y_, vocabulary, vocabulary_inv, df, labels = data_helper.load_data(input_file)
 
-    # training_config = sys.argv[2]
-    training_config = 'training_config.json'
+    training_config = sys.argv[2]
+    # training_config = 'training_config.json'
     params = json.loads(open(training_config).read())
 
     # Assign a 300 dimension vector to each word
