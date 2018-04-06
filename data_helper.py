@@ -109,19 +109,21 @@ def load_data(filename):
 	# label_dict = {label1 : [1,0,0...0], lable2: [0,1,0,...0] ...}
 
 
-	# x_raw = df[selected[1]].apply(lambda x:x.split(' ')).tolist()
-	x_raw = df[selected[1]].apply(lambda x:clean_str(x).split(' ')).tolist()
+	x_raw = df[selected[1]].apply(lambda x:clean_str(x).split('')).tolist()     #by char
+	# x_raw = df[selected[1]].apply(lambda x:clean_str(x).split(' ')).tolist()    #by word
 	y_raw = df[selected[0]].apply(lambda y:label_dict[y]).tolist()
 
 	x_raw = pad_sentences(x_raw)
 	vocabulary, vocabulary_inv = build_vocab(x_raw)
 
 	x = np.array([[vocabulary[word] for word in sentence] for sentence in x_raw])
+
 	# [
 	#   [1, 3, 3, 2, 5],
 	#   [1, 3, 3, 2, 5],
 	#       ...
 	# 		            ]
+
 	y = np.array(y_raw)
 	return x, y, vocabulary, vocabulary_inv, df, labels
 

@@ -26,6 +26,7 @@ def train_cnn_rnn():
     # Assign a 300 dimension vector to each word
     word_embeddings = data_helper.load_embeddings(vocabulary)
     embedding_mat = [word_embeddings[word] for index, word in enumerate(vocabulary_inv)]
+    # {word1 : [023423,0.234234. ... , ], word2 : [0.2342,2342340,0.34234] ..}
     embedding_mat = np.array(embedding_mat, dtype = np.float32)
 
     # Split the original dataset into train set and test set

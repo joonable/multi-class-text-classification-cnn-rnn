@@ -54,13 +54,11 @@ class TextCNNRNN(object):
         pooled_concat = tf.concat(pooled_concat,2)
         pooled_concat = tf.nn.dropout(pooled_concat, self.dropout_keep_prob)
 
-        # lstm_cell = tf.nn.rnn_cell.LSTMCell(num_units=hidden_unit)
+        gru_cell = tf.nn.rnn_cell.GRUCell(num_units=hidden_unit)
+        lstm_cell = tf.nn.rnn_cell.LSTMCell(num_units=hidden_unit)
 
-        #lstm_cell = tf.nn.rnn_cell.GRUCell(num_units=hidden_unit)
-        lstm_cell = tf.contrib.rnn.GRUCell(num_units=hidden_unit)
-
-        #lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=self.dropout_keep_prob)
-        lstm_cell = tf.contrib.rnn.DropoutWrapper(lstm_cell, output_keep_prob=self.dropout_keep_prob)
+        gru_cell = tf.contrib.rnn.DropoutWrapper(gru_cell , output_keep_prob=self.dropout_keep_prob)
+        lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=self.dropout_keep_prob)
 
 
         self._initial_state = lstm_cell.zero_state(self.batch_size, tf.float32)
@@ -91,8 +89,8 @@ class TextCNNRNN(object):
             self.predictions = tf.argmax(self.scores, axis =  1, name='predictions')
 
         with tf.name_scope('loss'):
-            # losses = tf.nn.softmax_cross_entropy_with_logits(labels = self.input_y, logits = self.scores) #  only named arguments accepted
-            losses = tf.nn.softmax_cross_entropy_with_logits_v2(labels = self.input_y, logits = self.scores) #  only named arguments accepted
+            losses = tf.nn.softmax_cross_entropy_with_logits(labels = self.input_y, logits = self.scores) #  only named arguments accepted
+            # losses = tf.nn.softmax_cross_entropy_with_logits_v2(labels = self.input_y, logits = self.scores) #  only named arguments accepted
             self.loss = tf.reduce_mean(losses) + l2_reg_lambda * l2_loss
 
         with tf.name_scope('accuracy'):
